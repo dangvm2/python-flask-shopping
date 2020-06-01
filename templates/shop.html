@@ -1,0 +1,146 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <!--<div class="col-lg-8 ftco-animate">-->
+            <div class="col-md-12 ftco-animate">
+                
+                {% if arrPro|length > 0: %}
+                     <!--Category-->
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 mb-5 text-center">
+                            <ul class="product-category">
+                                <!--<li><a href="#" class="active">Tất cả</a></li>
+                                <li><a href="#">Sữa chua</a></li>
+                                <li><a href="#">Bánh Flan</a></li>
+                                <li><a href="#">Kim chi & dưa muối</a></li>-->
+                                {{ layout_GetAllCategory("shop", cate, keyword, page, arrCateExist)|safe }}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--Product-->
+                    <div class="row">
+                    {% for item in arrPro %}
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="/detail/{{ item.p_ItemCode }}" class="img-prod"><img class="img-fluid" src="{{ item.ImgUrl }}" alt="Colorlib Template">
+                                    {% if item.DiscountPercent > 0 %}
+                                        <span class="status">{{ item.DiscountPercent }}%</span>
+                                    {% endif %}
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="/detail/{{ item.p_ItemCode }}">{{ item.itemName }}</a></h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            {% if item.DiscountPercent > 0 %}
+                                                <p class="price"><span class="mr-2 price-dc">{{ "{:,.0f}".format(item.Price) }}</span><span class="price-sale">{{ "{:,.0f}".format(item.PriceAfterDiscount) }} đ/{{ item.UnitName }}</span></p>
+                                            {% else %}
+                                                <p class="price"><span>{{ "{:,.0f}".format(item.Price)}} đ/{{ item.UnitName }}</span></p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <form class="form-products" name="{{ item.p_ItemCode }}">
+                                        <input type="hidden" name="itemCode" class="form-control" value="{{ item.p_ItemCode }}">
+                                        
+                                        <div class="bottom-area d-flex px-3">
+                                            <div class="m-auto d-flex">
+                                                <!--
+                                                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                                    <span><i class="ion-ios-menu"></i></span>
+                                                </a>
+                                                -->
+                                                <a href="javascript:void(0)" class="btnAddCart buy-now d-flex justify-content-center align-items-center mx-1" name="{{ item.p_ItemCode }}">
+                                                    <span><i class="ion-ios-cart"></i></span>
+                                                </a>
+                                                <a href="/detail/{{ item.p_ItemCode }}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                                    <span><i class="ion-ios-menu"></i></span>
+                                                </a>
+                                                <!--
+                                                <a href="javascript:void(0)" class="heart d-flex justify-content-center align-items-center ">
+                                                    <span><i class="ion-ios-heart"></i></span>
+                                                </a>
+                                                -->
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    <!--Paging-->
+                    {% if maxPage is defined %}
+                        {% if maxPage > 1 %}
+                            <div class="row mt-5">
+                                <div class="col text-center">
+                                    <div class="block-27">
+                                        <ul>
+                                            {% if page|int > 1 %}
+                                            <li><a href="/shop/search?keyword={{keyword}}&page={{page|int - 1}}&cate={{cate}}">&lt;</a></li>   <!--Previous Button-->
+                                            {% endif %}
+
+                                            {% for i in range(maxPage) %}
+                                                {% if i + 1 == page|int %}
+                                                    <li class="active"><span>{{i + 1}}</span></li>
+                                                {% else %}
+                                                    <li><a href="/shop/search?keyword={{keyword}}&page={{i + 1}}&cate={{cate}}">{{i + 1}}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if page|int < maxPage %}
+                                            <li><a href="/shop/search?keyword={{keyword}}&page={{page|int + 1}}&cate={{cate}}">&gt;</a></li>   <!--Next Button-->
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                {% else %}
+                    <div style="text-align: center;">
+                        {% if not keyword %}
+                            <h2>Không tìm thấy sản phẩm nào.</h2>
+                        {% else %}
+                            <h2>Không tìm thấy kết quả cho "{{keyword}}".</h2> 
+                        {% endif %}
+                    </div>
+                {% endif %}
+                
+            </div>
+
+            <!--
+            <div class="col-lg-4 sidebar ftco-animate">
+                <div class="sidebar-box">
+                    <form action="#" class="search-form">
+                        <div class="form-group">
+                            <span class="icon ion-ios-search"></span>
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </div>
+                    </form>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3 class="heading">Categories</h3>
+                    <ul class="categories">
+                        <li><a href="#">Vegetables <span>(12)</span></a></li>
+                        <li><a href="#">Fruits <span>(22)</span></a></li>
+                        <li><a href="#">Juice <span>(37)</span></a></li>
+                        <li><a href="#">Dries <span>(42)</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            -->
+
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock  %}

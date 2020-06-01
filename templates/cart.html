@@ -1,0 +1,227 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<script src="{{ url_for('static', filename='js/myjs/cart.js') }}"></script>
+
+<!--
+<div class="alert alert-success" id="success-alert" style="display: none;">
+</div>
+<div class="alert alert-warning" id="warning-alert" style="display: none;">
+</div>
+-->
+
+<!--BEGIN Cart-->
+{% if arrItemsCart|length > 0 %}
+    {% set l_total = {'totalPrice': 0, 'totalDiscount': 0} %}
+    <section class="ftco-section ftco-cart">
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-md-12 ftco-animate">
+                    <div class="cart-list table">
+                        <table class="table">
+                            <!--
+                            <thead class="thead-primary">
+                                <tr class="text-center">
+                                    <th>Xóa</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Giá tiền</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            -->
+                            <tbody>
+                                {% for item in arrItemsCart %}
+                                    {% if l_total.update({'totalPrice': l_total.totalPrice + item.p_TotalPrice}) %}{% endif %}
+                                    
+                                    <tr class="text-left" id="row_{{ item.p_ItemCode }}">
+                                        
+                                        <td class="image-prod min">
+                                            <div class="img" style="background-image:url({{ item.p_ImgUrl }});"></div>
+                                        </td>
+
+                                        <td class="product-name">
+                                            <h3 class="text-left">{{ item.p_ItemName }}</h3>
+                                            <p class="text-left">{{ item.p_Description }}</p>
+
+                                            <!--<p class="text-left">{{ "{:,.0f}".format(item.p_Price) }}</p>-->
+                                            <p class="total-price text-left" id="lblTotalPrice_Line_{{ item.p_ItemCode }}">{{ "{:,.0f}".format(item.p_TotalPrice) }} đ</p>
+
+                                            <input type="number" id="{{ item.p_ItemCode }}" pattern="\d*"
+                                                    onkeypress="return isNumberKey(event)" 
+                                                    onfocusout="txtQuantityFocusout({{ item.p_ItemCode }})"
+                                                    onchange="txtQuantityFocusout({{ item.p_ItemCode }})"
+                                                    name="txtQuantity" class="quantity form-control input-number" 
+                                                    value={{ "{:,.0f}".format(item.p_Quantity) }} min="1" max="1000">
+                                            <p class="unit-name">{{item.p_UnitName}}</p>
+
+                                            
+                                        </td>
+
+                                        <td class="product-remove min"><a href="javascript:void(0)" onclick ="deleteItem({{ item.p_ItemCode }})"><span class="ion-ios-close"></span></a></td>
+
+                                        <!--
+                                        <td class="price">{{ "{:,.0f}".format(item.p_Price) }}</td>
+
+                                        <td class="quantity">
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="{{ item.p_ItemCode }}" 
+                                                    onkeypress="return isNumberKey(event)" 
+                                                    onfocusout="txtQuantityFocusout({{ item.p_ItemCode }})"
+                                                    onchange="txtQuantityFocusout({{ item.p_ItemCode }})"
+                                                    name="txtQuantity" class="quantity form-control input-number" 
+                                                    value={{ "{:,.0f}".format(item.p_Quantity) }} min="1" max="1000">
+                                            </div>
+                                        </td>
+                                        
+                                        <td class="total" id="lblTotalPrice_{{ item.p_ItemCode }}">{{ "{:,.0f}".format(item.p_TotalPrice) }}</td>
+                                        -->
+                                    </tr>
+                                {% endfor %}
+                                <!-- END TR-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+            <div class="cart-list">
+                {% for item in arrItemsCart %}
+                    {% if l_total.update({'totalPrice': l_total.totalPrice + item.p_TotalPrice}) %}{% endif %}
+
+                    <div class="row" id="row_{{ item.p_ItemCode }}">
+                        <div class="col">
+                            <a href="javascript:void(0)" onclick ="deleteItem({{ item.p_ItemCode }})"><span class="ion-ios-close"></span></a>
+                        </div>
+                        <div class="col image-prod">
+                            <div class="img" style="background-image:url({{ item.p_ImgUrl }});"></div>
+                        </div>
+                        <div class="col">
+                            <h3>{{ item.p_ItemName }}</h3>
+                            <p>{{ item.p_Description }}</p>
+                        </div>
+                        <div class="col">
+                            {{ "{:,.0f}".format(item.p_Price) }}
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <input type="number" id="{{ item.p_ItemCode }}" 
+                                    onkeypress="return isNumberKey(event)" 
+                                    onfocusout="txtQuantityFocusout({{ item.p_ItemCode }})"
+                                    onchange="txtQuantityFocusout({{ item.p_ItemCode }})"
+                                    name="txtQuantity" class="quantity form-control input-number" 
+                                    value={{ "{:,.0f}".format(item.p_Quantity) }} min="1" max="1000">
+                            </div>
+                        </div>
+                        <div class="col" id="lblTotalPrice_{{ item.p_ItemCode }}">
+                            {{ "{:,.0f}".format(item.p_TotalPrice) }}
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+            -->
+
+            <div class="row justify-content-end">
+                <!--Discount-->
+                <!--
+                <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3>Mã giảm giá</h3>
+                        <p>Nhập mã giảm giá nếu bạn có</p>
+                        <form action="#" class="info">
+                            <div class="form-group">
+                                <label for="">Coupon code</label>
+                                <input type="text" class="form-control text-left px-3" placeholder="">
+                            </div>
+                        </form>
+                    </div>
+                    <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Kiểm tra</a></p>
+                </div>
+                -->
+
+                <!--Address-->
+                <!--<div class="col-lg-4 mt-5 cart-wrap ftco-animate">-->
+                <div class="col-xs-7 col-sm-6 col-lg-8 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3>Thông tin giao hàng</h3>
+                        <p>Điền các thông tin sau để chúng tôi giao hàng cho bạn</p>
+                        <form action="#" class="info">
+                            <div class="form-group">
+                                <label for="">Tên người nhận <b style="color:red;">*</b></label>
+                                <input type="text" class="form-control text-left px-3" placeholder="" id="txtCustomerName">
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Số điện thoại người nhận <b style="color:red;">*</b></label>
+                                <input type="text" class="form-control text-left px-3" placeholder="" id="txtCustomerPhone" maxlength="20" pattern="\d*">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Địa chỉ giao hàng <b style="color:red;">*</b></label>
+                                <input type="text" class="form-control text-left px-3" placeholder="" id="txtAddress">
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Ghi chú (nếu có)</label>
+                                <input type="text" class="form-control text-left px-3" placeholder="" id="txtRemark">
+                            </div>
+                        </form>
+                    </div>
+                    <!--<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Estimate</a></p>-->
+                </div>
+
+                <!--Total-->
+                <!--<div class="col-lg-4 mt-5 cart-wrap ftco-animate">-->
+                <div class="col-xs-5 col-sm-6 col-lg-4 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3>Thông tin thanh toán</h3>
+                        <p class="d-flex">
+                            <span>Tổng tiền giỏ hàng</span>
+                            <span id="lblTotalPrice">{{ "{:,.0f}".format(l_total.totalPrice) }}</span>
+                        </p>
+                        <p class="d-flex">
+                            <span>Phí giao hàng</span>
+                            <span>0</span>
+                        </p>
+                        <p class="d-flex">
+                            <span>Giảm giá</span>
+                            <span id="lblTotalDiscount">{{ "{:,.0f}".format(l_total.totalDiscount) }}</span>
+                        </p>
+                        <hr>
+                        <p class="d-flex total-price">
+                            <span>Thành tiền</span>
+                            <span id="lblTotalFinalPrice">{{ "{:,.0f}".format(l_total.totalPrice - l_total.totalDiscount) }}</span>
+                        </p>
+                    </div>
+                    </br>
+                    <p style="text-align: center;">
+                        <a onclick="createOrder()" href="javascript:void(0)" class="btn btn-primary py-3 px-4" name="btnFinish">Xác nhận đặt hàng</a>
+                        </br></br>
+                        <a href="/" class="btn btn-outline-secondary py-3 px-4" name="">Tiếp tục mua hàng</a>
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+{% else %}
+    <div style="text-align: center;">
+        {% if textHeader is defined %}
+            <h2 name="lbltextHeader">{{ textHeader }}</h2>
+        {% else %}
+            <h2 name="lbltextHeader">Bạn chưa có sản phẩm nào trong giỏ hàng</h2>
+        {% endif %}
+        </br>
+        {% if textButton is defined %}
+            <a href="/" class="btn btn-primary py-3 px-4">{{ textButton }}</a>
+        {% else %}
+            <a href="/" class="btn btn-primary py-3 px-4">Đặt hàng ngay</a>
+        {% endif %}
+        </br>
+        </br>
+        </br>
+    </div>
+{% endif %}
+<!--END Cart-->
+{% endblock  %}

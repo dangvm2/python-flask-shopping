@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ThaoVyFoods - Thực phẩm dinh dưỡng hàng ngày</title>
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <link rel="icon" href="{{ url_for('static', filename='ico/lettuce.ico') }}">
+
+	<!--
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet">
+	-->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/open-iconic-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aos.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ionicons.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.timepicker.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/icomoon.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mycss/mycss.css') }}">
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/myjs/layout.js') }}"></script>
+    
+</head>
+
+<body class="goto-here">
+
+    <!-- BEGIN Alert -->
+    <div class="alert alert-success" id="success-alert" style="display: none;">
+    </div>
+    <div class="alert alert-warning" id="warning-alert" style="display: none;">
+    </div>
+    <div class="alert alert-danger" id="danger-alert" style="display: none;">
+    </div>
+    <!-- END Alert -->
+
+	<!-- BEGIN nav -->
+    <div class="py-1 bg-primary">
+        <div class="container">
+            <div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
+                <div class="col-lg-12 d-block">
+                    <div class="row d-flex">
+                        <div class="col-md pr-4 d-flex topper align-items-center">
+                            <div class="icon mr-2 d-flex justify-content-center align-items-center"><span class="icon-phone2"></span></div>
+                            <span class="text">093.8844.861</span>
+                        </div>
+                        <div class="col-md pr-4 d-flex topper align-items-center">
+                            <div class="icon mr-2 d-flex justify-content-center align-items-center"><span class="icon-paper-plane"></span></div>
+                            <span class="text">ThaoVyFoods@gmail.com</span>
+                        </div>
+                        <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
+                            <span class="text">Giao hàng nhanh &amp; Miễn phí</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container container-menu">
+            <a class="navbar-brand" href="/">ThaoVyFoods</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+                        
+                        
+                        
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a href="/" class="nav-link">Trang chủ</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sản phẩm</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <!--<a class="dropdown-item" href="#">Tất cả sản phẩm</a>
+                            <a class="dropdown-item" href="#">Sữa chua</a>
+                            <a class="dropdown-item" href="#">Bánh Flan</a>
+                            <a class="dropdown-item" href="#">Kim chi & dưa muối</a>-->
+                            {{ layout_GetAllCategory("layout")|safe }}
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link">Về chúng tôi</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Liên hệ</a></li>
+                    <li class="nav-item cta cta-colored">
+                        <a href="/showCart" class="nav-link">
+                            <span class="icon-shopping_cart"></span>
+                            <b id="lblCart" name="lblCart">
+                                {% if not session.GuestInfo %}
+                                    [0]
+                                {% else %}
+                                    [{{ session.GuestInfo['cartCount'] }}]
+                                {% endif %}
+                            </b>
+                        </a>
+                    </li>
+                </ul>
+                <div class="search-form" >
+                    <div class="form-group">
+                        <a href="javascript:void(0)" onclick="" id="btnSearchProduct" class="icon ion-ios-search"></a>
+                        <input type="text" id="txtSearchProduct" class="form-control" placeholder="Tìm sản phẩm...">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+    <!-- END nav -->
+
+	<!-- BEGIN slide -->
+	<!-- END slide -->
+
+	<!-- BEGIN Cam kết -->
+    <!--<section class="ftco-section">
+        <div class="container">
+            <div class="row no-gutters ftco-services">
+                <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+                    <div class="media block-6 services mb-md-0 mb-4">
+                        <div class="icon bg-color-1 active d-flex justify-content-center align-items-center mb-2">
+                            <span class="flaticon-shipped"></span>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="heading">Free Shipping</h3>
+                            <span>On order over $100</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+                    <div class="media block-6 services mb-md-0 mb-4">
+                        <div class="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
+                            <span class="flaticon-diet"></span>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="heading">Always Fresh</h3>
+                            <span>Product well package</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+                    <div class="media block-6 services mb-md-0 mb-4">
+                        <div class="icon bg-color-3 d-flex justify-content-center align-items-center mb-2">
+                            <span class="flaticon-award"></span>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="heading">Superior Quality</h3>
+                            <span>Quality Products</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+                    <div class="media block-6 services mb-md-0 mb-4">
+                        <div class="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
+                            <span class="flaticon-customer-service"></span>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="heading">Support</h3>
+                            <span>24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+	<!-- END Cam kết -->
+
+	<!-- BEGIN Vegetables -->
+    <!--<section class="ftco-section ftco-category ftco-no-pt">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6 order-md-last align-items-stretch d-flex">
+                            <div class="category-wrap-2 ftco-animate img align-self-stretch d-flex" style="background-image: url(../static/images/category.jpg);">
+                                <div class="text text-center">
+                                    <h2>Vegetables</h2>
+                                    <p>Protect the health of every home</p>
+                                    <p><a href="#" class="btn btn-primary">Shop now</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url(../static/images/category-1.jpg);">
+                                <div class="text px-3 py-1">
+                                    <h2 class="mb-0"><a href="#">Fruits</a></h2>
+                                </div>
+                            </div>
+                            <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url(../static/images/category-2.jpg);">
+                                <div class="text px-3 py-1">
+                                    <h2 class="mb-0"><a href="#">Vegetables</a></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url(../static/images/category-3.jpg);">
+                        <div class="text px-3 py-1">
+                            <h2 class="mb-0"><a href="#">Juices</a></h2>
+                        </div>
+                    </div>
+                    <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url(../static/images/category-4.jpg);">
+                        <div class="text px-3 py-1">
+                            <h2 class="mb-0"><a href="#">Dried</a></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+	<!-- END Vegetables -->
+
+    <!-- BEGIN Product -->
+    <!-- END Product -->
+
+    <!-- Sub template -->
+    {% block body %} {% endblock %}
+	
+	<!-- BEGIN Best Deal Today -->
+    <!--<section class="ftco-section img" style="background-image: url(../static/images/bg_3.jpg);">
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-md-6 heading-section ftco-animate deal-of-the-day ftco-animate">
+                    <span class="subheading">Khuyến mãi HOT</span>
+                    <h2 class="mb-4">Giá tốt nhất hôm nay cho bạn</h2>
+                    <h3><a href="#">Spinach</a></h3>
+                    <span class="price">$10 <a href="#">now $5 only</a></span>
+                    <div id="timer" class="d-flex mt-5">
+                        <div class="time" id="days"></div>
+                        <div class="time pl-3" id="hours"></div>
+                        <div class="time pl-3" id="minutes"></div>
+                        <div class="time pl-3" id="seconds"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+	<!-- END Best Deal Today -->
+
+	<!-- BEGIN Feedback -->
+    <!--<section class="ftco-section testimony-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5 pb-3">
+                <div class="col-md-7 heading-section ftco-animate text-center">
+                    <span class="subheading">Testimony</span>
+                    <h2 class="mb-4">Our satisfied customer says</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+                </div>
+            </div>
+            <div class="row ftco-animate">
+                <div class="col-md-12">
+                    <div class="carousel-testimony owl-carousel">
+                        <div class="item">
+                            <div class="testimony-wrap p-4 pb-5">
+                                <div class="user-img mb-5" style="background-image: url(../static/images/person_1.jpg)">
+                                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text text-center">
+                                    <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                    <p class="name">Garreth Smith</p>
+                                    <span class="position">Marketing Manager</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-wrap p-4 pb-5">
+                                <div class="user-img mb-5" style="background-image: url(../static/images/person_2.jpg)">
+                                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text text-center">
+                                    <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                    <p class="name">Garreth Smith</p>
+                                    <span class="position">Interface Designer</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-wrap p-4 pb-5">
+                                <div class="user-img mb-5" style="background-image: url(../static/images/person_3.jpg)">
+                                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text text-center">
+                                    <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                    <p class="name">Garreth Smith</p>
+                                    <span class="position">UI Designer</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-wrap p-4 pb-5">
+                                <div class="user-img mb-5" style="background-image: url(../static/images/person_1.jpg)">
+                                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text text-center">
+                                    <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                    <p class="name">Garreth Smith</p>
+                                    <span class="position">Web Developer</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimony-wrap p-4 pb-5">
+                                <div class="user-img mb-5" style="background-image: url(../static/images/person_1.jpg)">
+                                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                                </div>
+                                <div class="text text-center">
+                                    <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                    <p class="name">Garreth Smith</p>
+                                    <span class="position">System Analyst</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+	<!-- END Feedback -->
+
+	<!-- BEGIN Partner -->
+    <!--<hr>
+
+    <section class="ftco-section ftco-partner">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm ftco-animate">
+                    <a href="#" class="partner"><img src="../static/images/partner-1.png" class="img-fluid" alt="Colorlib Template"></a>
+                </div>
+                <div class="col-sm ftco-animate">
+                    <a href="#" class="partner"><img src="../static/images/partner-2.png" class="img-fluid" alt="Colorlib Template"></a>
+                </div>
+                <div class="col-sm ftco-animate">
+                    <a href="#" class="partner"><img src="../static/images/partner-3.png" class="img-fluid" alt="Colorlib Template"></a>
+                </div>
+                <div class="col-sm ftco-animate">
+                    <a href="#" class="partner"><img src="../static/images/partner-4.png" class="img-fluid" alt="Colorlib Template"></a>
+                </div>
+                <div class="col-sm ftco-animate">
+                    <a href="#" class="partner"><img src="../static/images/partner-5.png" class="img-fluid" alt="Colorlib Template"></a>
+                </div>
+            </div>
+        </div>
+    </section>-->
+	<!-- END Partner -->
+
+	<!-- BEGIN Input Email -->
+    <section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
+        <div class="container py-4">
+            <div class="row d-flex justify-content-center py-5">
+                <div class="col-md-6">
+                    <h2 style="font-size: 22px;" class="mb-0">Quý khách muốn theo dõi thông tin khuyến mãi?</h2>
+                    <span>Ngay khi có sản phẩm giá tốt, chúng tôi sẽ gửi ngay thông tin cho quý khách.</span>
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="subscribe-form">
+                        <div class="form-group d-flex">
+                            <input type="text" id="txtSubscribe" class="form-control" placeholder="Nhập địa chỉ Email của bạn">
+                            <input type="submit" id="btnSubscribe" value="Theo dõi" class="submit px-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+	<!-- END Input Email -->
+
+	<!-- BEGIN Footer -->
+    <footer class="ftco-footer ftco-section">
+        <div class="container">
+            
+			<div class="row">
+                <div class="mouse">
+                    <a href="#" class="mouse-icon">
+                        <div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
+                    </a>
+                </div>
+            </div>
+            
+			<div class="row mb-5">
+
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2"><b>ThaoVyFoods</b></h2>
+                        <p>Chuyên cung cấp thực phẩm dinh dưỡng hằng ngày.</p>
+                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                            <li class="ftco-animate"><a href="tel:0938844861"><span class="icon-phone"></span></a></li>
+                            <li class="ftco-animate"><a href="https://www.facebook.com/Thực-phẩm-ThaoVy-Thaovyfoods-113116253431145" target="_blank"><span class="icon-facebook"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+				<!--
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4 ml-md-5">
+                        <h2 class="ftco-heading-2">Menu</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="py-2 d-block">Trang chủ</a></li>
+                            <li><a href="#" class="py-2 d-block">Sản phẩm</a></li>
+                            <li><a href="#" class="py-2 d-block">Về chúng tôi</a></li>
+                            <li><a href="#" class="py-2 d-block">Liên hệ</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+				
+                <div class="col-md-4">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Help</h2>
+                        <div class="d-flex">
+                            <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
+                                <li><a href="#" class="py-2 d-block">Shipping Information</a></li>
+                                <li><a href="#" class="py-2 d-block">Returns &amp; Exchange</a></li>
+                                <li><a href="#" class="py-2 d-block">Terms &amp; Conditions</a></li>
+                                <li><a href="#" class="py-2 d-block">Privacy Policy</a></li>
+                            </ul>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="py-2 d-block">FAQs</a></li>
+                                <li><a href="#" class="py-2 d-block">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+				-->
+
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2"><b>Thông tin liên hệ</b></h2>
+                        <div class="block-23 mb-3">
+                            <ul>
+                                <li><a href="https://goo.gl/maps/tgKCgq8cmMnQsijy9" target="_blank"><span class="icon icon-map-marker"></span><span class="text">306 Bàu cát 6, P.14, Q.Tân Bình, TP.HCM</span></a></li>
+                                <li><a href="tel:0938844861"><span class="icon icon-phone"></span><span class="text">0938844861</span></a></li>
+                                <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=ThaoVyFoods@gmail.com&su=&body=" target="_blank"><span class="icon icon-envelope"></span><span class="text">ThaoVyFoods@gmail.com</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+			<div class="row">
+                <div class="col-md-12 text-center">
+
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+
+                    <p> V1.0.0 </p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+	<!-- END Footer -->
+
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen">
+        <svg class="circular" width="48px" height="48px">
+            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" />
+        </svg>
+    </div>
+
+    
+    <script src="{{ url_for('static', filename='js/jquery-migrate-3.0.1.min.js') }}"></script>
+    <!--<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.easing.1.3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.stellar.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/aos.js') }}"></script>
+    <!--<script src="{{ url_for('static', filename='js/jquery.animateNumber.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-datepicker.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='js/scrollax.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+
+</body>
+
+</html>

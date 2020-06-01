@@ -1,0 +1,17 @@
+#success-alert, #warning-alert, #danger-alert {
+  top: 0;
+  right: 0;
+  margin: 20px ;
+  position: fixed;
+  z-index: 99;
+}
+
+.form-control:focus {
+  border-color: #000;
+}
+
+/*scroll on slider*/
+.owl-carousel .owl-stage, .owl-carousel.owl-drag .owl-item{
+  -ms-touch-action: auto;
+      touch-action: auto;
+}

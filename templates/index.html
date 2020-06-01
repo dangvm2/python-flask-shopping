@@ -1,0 +1,120 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<script src="{{ url_for('static', filename='js/myjs/index.js') }}"></script>
+
+<!--
+<div class="alert alert-success" id="success-alert" style="display: none;">
+</div>
+-->
+
+
+<!-- BEGIN slide -->
+<section id="home-section" class="hero">
+    <div class="home-slider owl-carousel">
+        <div class="slider-item" style="background-image: url(../static/images/bg_6.jpg);">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+                    <div class="col-md-12 ftco-animate text-center">
+                        <h1 class="mb-2">Chúng tôi cung cấp thực phẩm dinh dưỡng hằng ngày</h1>
+                        <h2 class="subheading mb-4">Giao hàng tận nơi miễn phí</h2>
+                        <!--<p><a href="#" class="btn btn-primary">Xem chi tiết</a></p>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-item" style="background-image: url(../static/images/bg_5.jpg);">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+                    <div class="col-sm-12 ftco-animate text-center">
+                        <h1 class="mb-2">100% Thực phẩm tươi sạch</h1>
+                        <h2 class="subheading mb-4">Chế biến theo công thức gia truyền</h2>
+                        <!--<p><a href="#" class="btn btn-primary">Xem chi tiết</a></p>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END slide -->
+
+<!-- BEGIN Product -->
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <span class="subheading">Chúng tôi cam kết sử dụng sản phẩm sạch</span>
+                <h2 class="mb-4">Sản phẩm bán chạy</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+
+        {% if arrPro|length > 0: %}
+            {% for item in arrPro %}
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="product">
+                        <a href="/detail/{{ item.p_ItemCode }}" class="img-prod"><img class="img-fluid" src="{{ item.ImgUrl }}" alt="Colorlib Template">
+                            {% if item.DiscountPercent > 0 %}
+                                <span class="status">{{ item.DiscountPercent }}%</span>
+                            {% endif %}
+                            <div class="overlay"></div>
+                        </a>
+                        <div class="text py-3 pb-4 px-3 text-center">
+                            <h3><a href="/detail/{{ item.p_ItemCode }}">{{ item.itemName }}</a></h3>
+                            <div class="d-flex">
+                                <div class="pricing">
+                                    {% if item.DiscountPercent > 0 %}
+                                        <p class="price"><span class="mr-2 price-dc">{{ "{:,.0f}".format(item.Price) }}</span><span class="price-sale">{{ "{:,.0f}".format(item.PriceAfterDiscount) }} đ/{{ item.UnitName }}</span></p>
+                                    {% else %}
+                                        <p class="price"><span>{{ "{:,.0f}".format(item.Price)}} đ/{{ item.UnitName }}</span></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <form class="form-products" name="{{ item.p_ItemCode }}">
+                                <input type="hidden" name="itemCode" class="form-control" value="{{ item.p_ItemCode }}">
+                                
+                                <div class="bottom-area d-flex px-3">
+                                    <div class="m-auto d-flex">
+                                        <!--
+                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                            <span><i class="ion-ios-menu"></i></span>
+                                        </a>
+                                        -->
+                                        <a href="javascript:void(0)" class="btnAddCart buy-now d-flex justify-content-center align-items-center mx-1" name="{{ item.p_ItemCode }}">
+                                            <span><i class="ion-ios-cart"></i></span>
+                                        </a>
+                                        <a href="/detail/{{ item.p_ItemCode }}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                            <span><i class="ion-ios-menu"></i></span>
+                                        </a>
+                                        <!--
+                                        <a href="javascript:void(0)" class="heart d-flex justify-content-center align-items-center ">
+                                            <span><i class="ion-ios-heart"></i></span>
+                                        </a>
+                                        -->
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        </div>
+    </div>
+</section>
+<!-- END Product -->
+
+{% endblock  %}
+
+
